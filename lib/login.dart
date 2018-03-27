@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_sandbox/storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   BuildContext _ctx;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser signedUser;
+  GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: ['email']);
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +38,26 @@ class LoginScreenState extends State<LoginScreen> {
 
   void _loginPressed() {
     _handleSignIn()
-        .then((FirebaseUser user) => print(user))
+        .then((FirebaseUser user) => _loginSuccessful(user))
         .catchError((e) => print(e));
   }
 
   Future<FirebaseUser> _handleSignIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    storeSignInInfo(googleAuth.accessToken, googleAuth.idToken);
+
     FirebaseUser user = await _auth.signInWithGoogle(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    print("signed in " + user.displayName);
-    signedUser = user;
-    Navigator.of(_ctx).pushNamed("/random_words");
     return user;
   }
 
-  GoogleSignIn _googleSignIn = new GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  void _loginSuccessful(FirebaseUser user) {
+    //TODO check if any user info is necessary
+    print("signed in with " + user.displayName);
+    Navigator.of(_ctx).pushNamed("/random_words");
+  }
 }

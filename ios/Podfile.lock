@@ -55,13 +55,13 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
-  - firebase_auth (from `Pods/.symlinks/plugins/firebase_auth-0.5.1/ios`)
+  - firebase_auth (from `Pods/.symlinks/plugins/firebase_auth-0.5.2/ios`)
   - Flutter (from `Pods/.symlinks/flutter/ios`)
   - google_sign_in (from `Pods/.symlinks/plugins/google_sign_in-3.0.0/ios`)
 
 EXTERNAL SOURCES:
   firebase_auth:
-    :path: Pods/.symlinks/plugins/firebase_auth-0.5.1/ios
+    :path: Pods/.symlinks/plugins/firebase_auth-0.5.2/ios
   Flutter:
     :path: Pods/.symlinks/flutter/ios
   google_sign_in:
@@ -82,6 +82,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: 793ca17cc5488c2bdeb7f2f95b973a070492cf02
+PODFILE CHECKSUM: 9b879f2b43100ab1abe58b268a312a2e3e214cd9
 
 COCOAPODS: 1.4.0
