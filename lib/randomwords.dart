@@ -16,7 +16,6 @@ class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final saved = new Set<WordPair>();
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -24,6 +23,7 @@ class RandomWordsState extends State<RandomWords> {
         title: new Text('Startup Name Generator'),
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+          new IconButton(icon: new Icon(Icons.cloud), onPressed: _pushDatabase),
           new IconButton(icon: new Icon(Icons.exit_to_app), onPressed: _logout)
         ],
       ),
@@ -55,8 +55,7 @@ class RandomWordsState extends State<RandomWords> {
             _suggestions.addAll(generateWordPairs().take(10));
           }
           return _buildRow(_suggestions[index]);
-        }
-    );
+        });
   }
 
   Widget _buildRow(WordPair pair) {
@@ -86,6 +85,10 @@ class RandomWordsState extends State<RandomWords> {
     Navigator.of(context).pushNamed("/saved_words");
   }
 
+  void _pushDatabase() {
+    Navigator.of(context).pushNamed("/database");
+  }
+
   void _logout() {
     logout();
     Navigator.of(context).pushReplacementNamed("/login");
@@ -93,11 +96,10 @@ class RandomWordsState extends State<RandomWords> {
 }
 
 class SavedWords extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final tiles = randomWordsKey.currentState.saved.map(
-          (pair) {
+      (pair) {
         return new ListTile(
           title: new Text(
             pair.asPascalCase,
@@ -107,10 +109,12 @@ class SavedWords extends StatelessWidget {
       },
     );
 
-    final divided = ListTile.divideTiles(
-      context: context,
-      tiles: tiles,
-    ).toList();
+    final divided = ListTile
+        .divideTiles(
+          context: context,
+          tiles: tiles,
+        )
+        .toList();
 
     return new Scaffold(
       appBar: new AppBar(title: new Text('Saved Suggestions')),
@@ -118,4 +122,3 @@ class SavedWords extends StatelessWidget {
     );
   }
 }
-
