@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sandbox/storage.dart';
 
 final biggerFont = const TextStyle(fontSize: 18.0);
 final randomWordsKey = new GlobalKey<RandomWordsState>();
@@ -22,7 +23,8 @@ class RandomWordsState extends State<RandomWords> {
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved)
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+          new IconButton(icon: new Icon(Icons.exit_to_app), onPressed: _logout)
         ],
       ),
       body: _buildSuggestions(),
@@ -82,6 +84,11 @@ class RandomWordsState extends State<RandomWords> {
 
   void _pushSaved() {
     Navigator.of(context).pushNamed("/saved_words");
+  }
+
+  void _logout() {
+    logout();
+    Navigator.of(context).pushReplacementNamed("/login");
   }
 }
 

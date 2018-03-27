@@ -7,11 +7,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  BuildContext _ctx;
-
   @override
   Widget build(BuildContext context) {
-    _ctx = context;
     return new Center(
       child: new FlutterLogo(),
     );
@@ -20,11 +17,27 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    retrieveSignInInfo()
-        .then((value) => Navigator.of(_ctx).pushReplacementNamed("/home"))
-        .catchError((e) => Navigator.of(_ctx).pushReplacementNamed("/login"));
+    _checkForSignIn();
   }
 
+  void _checkForSignIn() {
+    retrieveSignInInfo()
+        .then((signInInfo) => _navigateWith(signInInfo))
+        .catchError((e) => _checkForSignInError(e));
+  }
 
+  void _navigateWith(SignInInfo signInInfo) {
+    if (signInInfo != null) {
+      Navigator.of(context).pushReplacementNamed("/home");
+    } else {
+      Navigator.of(context).pushReplacementNamed("/login");
+    }
+  }
+
+  void _checkForSignInError(Object error) {
+    print(error);
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text("Error retrieving user information"),
+    ));
+  }
 }

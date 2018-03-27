@@ -12,13 +12,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  BuildContext _ctx;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: ['email']);
 
   @override
   Widget build(BuildContext context) {
-    _ctx = context;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Login into SANDBOX'),
@@ -58,6 +56,6 @@ class LoginScreenState extends State<LoginScreen> {
   void _loginSuccessful(FirebaseUser user) {
     //TODO check if any user info is necessary
     print("signed in with " + user.displayName);
-    Navigator.of(_ctx).pushNamed("/home");
+    Navigator.of(context).pushReplacementNamed("/home");
   }
 }
