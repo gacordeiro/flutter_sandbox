@@ -58,6 +58,6 @@ class LoginScreenState extends State<LoginScreen> {
   void _loginSuccessful(FirebaseUser user) {
     //TODO check if any user info is necessary
     print("signed in with " + user.displayName);
-    Navigator.of(_ctx).pushNamed("/random_words");
+    Navigator.of(_ctx).pushNamed("/home");
   }
 }

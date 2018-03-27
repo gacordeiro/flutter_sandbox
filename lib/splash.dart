@@ -1,22 +1,30 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sandbox/storage.dart';
 
-Future checkSignIn() async {
-  return retrieveSignInInfo()
-      .then((value) => true)
-      .catchError((e) => false);
+class SplashScreen extends StatefulWidget {
+  @override
+  State createState() => new SplashScreenState();
 }
 
-class SplashScreen extends StatelessWidget {
+class SplashScreenState extends State<SplashScreen> {
   BuildContext _ctx;
-  var isSignedIn = checkSignIn();
 
-  @override Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     _ctx = context;
     return new Center(
       child: new FlutterLogo(),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+
+    retrieveSignInInfo()
+        .then((value) => Navigator.of(_ctx).pushReplacementNamed("/home"))
+        .catchError((e) => Navigator.of(_ctx).pushReplacementNamed("/login"));
+  }
+
+
 }
